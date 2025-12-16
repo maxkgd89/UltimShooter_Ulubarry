@@ -1,5 +1,37 @@
 [
 	{
+		"file": "C:\\Users\\maksi\\Projects_UE\\UltimShooter\\Source\\UltimShooter\\Private\\ShooterCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\maksi\\Projects_UE\\UltimShooter\\.vscode\\compileCommands_Default\\UltimShooter.1.rsp"
+		],
+		"directory": "C:\\ProgramFiles\\Epic Games\\UE_5.5\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\maksi\\Projects_UE\\UltimShooter\\Source\\UltimShooter\\Private\\ShooterGameModeBase.cpp",
+		"arguments": [
+			"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\maksi\\Projects_UE\\UltimShooter\\.vscode\\compileCommands_Default\\UltimShooter.1.rsp"
+		],
+		"directory": "C:\\ProgramFiles\\Epic Games\\UE_5.5\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\maksi\\Projects_UE\\UltimShooter\\Source\\UltimShooter\\Public\\ShooterCharacter.h",
+		"arguments": [
+			"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\maksi\\Projects_UE\\UltimShooter\\.vscode\\compileCommands_Default\\UltimShooter.1.rsp"
+		],
+		"directory": "C:\\ProgramFiles\\Epic Games\\UE_5.5\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\maksi\\Projects_UE\\UltimShooter\\Source\\UltimShooter\\Public\\ShooterGameModeBase.h",
+		"arguments": [
+			"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\maksi\\Projects_UE\\UltimShooter\\.vscode\\compileCommands_Default\\UltimShooter.1.rsp"
+		],
+		"directory": "C:\\ProgramFiles\\Epic Games\\UE_5.5\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\maksi\\Projects_UE\\UltimShooter\\Source\\UltimShooter\\UltimShooter.Build.cs",
 		"arguments": [
 			"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
