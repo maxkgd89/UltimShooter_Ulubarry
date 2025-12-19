@@ -1,3 +1,19 @@
-dfs
-sadf
-sdfa
+the folder where I can keep my code
+Source/UltimShooter/Private/ShooterAnimInstance.cpp
+Source/UltimShooter/Private/ShooterCharacter.cpp
+Source/UltimShooter/Private/ShooterGameModeBase.cpp
+
+Source/UltimShooter/Public/ShooterAnimInstance.h
+Source/UltimShooter/Public/ShooterCharacter.h
+Source/UltimShooter/Public/ShooterGameModeBase.h
+
+Blueprint files I have created
+ShooterCharacter_BP
+ABP_ShooterAnim
+BlendSpace
+BP_ShooterGameModeBase derived from ShooterGameModeBase cpp class
+ABP_ShooterAnim based on ShooterAnimInstance cpp class
+BP_ShooterCharacter derived from ShooterCharacter cpp class
+IA_Look Blueprint based on InputAction class
+IA_Move Blueprint based on  InputAction class
+IMC_Defaul Blueprint based on  InputMapping context class

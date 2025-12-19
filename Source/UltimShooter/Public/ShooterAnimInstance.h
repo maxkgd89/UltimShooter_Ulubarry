@@ -45,5 +45,5 @@ public:
 
 	virtual void NativeInitializeAnimation() override;
 
-
+	
 };
