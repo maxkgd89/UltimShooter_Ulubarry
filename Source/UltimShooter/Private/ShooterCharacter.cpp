@@ -8,8 +8,13 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-// include character movement to access movement component properties
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -69,6 +74,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Look);
+		
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &AShooterCharacter::FireWeapon);
 	}
 
 
@@ -110,4 +117,101 @@ void AShooterCharacter::Look(const FInputActionValue& Value)
         AddControllerYawInput(LookAxisVector.X);
         AddControllerPitchInput(-LookAxisVector.Y);
     }
+}
+
+void AShooterCharacter::FireWeapon(const FInputActionValue& Value)
+{
+	//print to log
+	UE_LOG(LogTemp, Warning, TEXT("FireWeapon called"));
+	// Try and play the sound if specified
+	if (FireSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	}
+	const USkeletalMeshSocket* BarrelSocket = GetMesh()->GetSocketByName("SMG_Barrel");
+	//print eulog if the socket is found
+	UE_LOG(LogTemp, Warning, TEXT("BarrelSocket: %s"), BarrelSocket ? TEXT("Found") : TEXT("Not Found"));
+
+	
+	
+	if (BarrelSocket)
+	{
+
+			const FTransform SocketTransform = BarrelSocket->GetSocketTransform(GetMesh());
+			if (MuzzleFlash)
+			
+			{
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, SocketTransform);
+			}
+
+			//bullet trail logic would go here
+
+			FHitResult FireHit;
+			const FVector Start = SocketTransform.GetLocation();
+			const FQuat Rotation = SocketTransform.GetRotation();
+			const FVector RotationAxis = Rotation.GetAxisX();
+			const FVector End = Start + RotationAxis * 10000.f;
+
+			FVector BeamEndPoint = End;
+
+			GetWorld()->LineTraceSingleByChannel(
+				FireHit,
+				Start,
+				End,
+				ECollisionChannel::ECC_Visibility);
+			if (FireHit.bBlockingHit)
+				{
+					//draw debug line
+					DrawDebugLine(
+						GetWorld(),
+						Start,
+						End,
+						FColor::Red,
+						false,
+						2.0f,
+						0,
+						1.0f
+					);
+
+					DrawDebugPoint(
+						GetWorld(),
+						FireHit.Location,
+						10.f,
+						FColor::Yellow,
+						false,
+						2.0f
+					);
+
+					BeamEndPoint = FireHit.Location;
+
+					//impact particles
+					if (ImpactParticles)
+					{
+						UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, FireHit.Location, FireHit.ImpactNormal.Rotation());
+					}
+				}
+			//beam particles
+			if (BeamParticles)
+			{
+				UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BeamParticles, SocketTransform);
+				if (Beam)
+				{
+					Beam->SetVectorParameter(FName("Target"), BeamEndPoint);
+				}
+			}
+
+	}
+	//play firing montage
+	if (HipFireMontage)
+	{
+		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+		if (AnimInstance)
+		{
+			//HipFireMontage is the montage to play
+			AnimInstance->Montage_Play(HipFireMontage);
+			//StartFire is montage section name
+			AnimInstance->Montage_JumpToSection(FName("StartFire"), HipFireMontage);
+		}
+	}
+
 }
