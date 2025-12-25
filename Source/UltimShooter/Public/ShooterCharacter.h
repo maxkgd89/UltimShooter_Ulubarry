@@ -48,6 +48,9 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     float BaseLookUpRate = 45.f;
 
+	//Declare bool GetBeamEndLocation(const FVector& MuzzleSocketLocation, FVector& OutBeamLocation) in ShooterCharacter.h (protected section)
+	bool GetBeamEndLocation(const FVector& MuzzleSocketLocation, FVector& OutBeamLocation);
+
 
 
 public:	
