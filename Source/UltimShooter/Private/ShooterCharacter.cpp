@@ -30,16 +30,17 @@ AShooterCharacter::AShooterCharacter()
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringArmComp, USpringArmComponent::SocketName);
 	CameraComp->bUsePawnControlRotation = false;
+	SpringArmComp->SocketOffset = FVector(0.f,50.f,50.f);
 
 	//Set bUseControllerRotationPitch, bUseControllerRotationYaw, and bUseControllerRotationRoll to false
 
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	//Access the Character Movement Component: Set bOrientRotationToMovement to true
 
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 540.f,0.f);
 }
 
@@ -144,14 +145,16 @@ void AShooterCharacter::FireWeapon(const FInputActionValue& Value)
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, SocketTransform);
 			}
 
+
+
 			//bullet trail logic would go here
 
 			FHitResult FireHit;
 			const FVector Start = SocketTransform.GetLocation();
 			const FQuat Rotation = SocketTransform.GetRotation();
 			const FVector RotationAxis = Rotation.GetAxisX();
-			const FVector End = Start + RotationAxis * 10000.f;
-
+			const FVector End = Start + RotationAxis * 20000.f;
+			
 			FVector BeamEndPoint = End;
 
 			GetWorld()->LineTraceSingleByChannel(
