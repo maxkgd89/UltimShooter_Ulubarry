@@ -174,14 +174,32 @@ void AShooterCharacter::FireWeapon(const FInputActionValue& Value)
 				if (ScreenTraceHit.bBlockingHit)
 				{
 					BeamEndPoint = ScreenTraceHit.Location;
+				}
+// perform the line trace from barrel to BeamEndPoint
+				FHitResult WeaponTraceHit;
+				const FVector WeaponTraceStart = SocketTransform.GetLocation();
+				const FVector WeaponTraceEnd = BeamEndPoint;
+				GetWorld()->LineTraceSingleByChannel(
+					WeaponTraceHit,
+					WeaponTraceStart,
+					WeaponTraceEnd,
+					ECollisionChannel::ECC_Visibility);
+				if (WeaponTraceHit.bBlockingHit)
+				{
+					BeamEndPoint = WeaponTraceHit.Location;
 					if (ImpactParticles)
 					{
 						UGameplayStatics::SpawnEmitterAtLocation(
 						GetWorld(), 
 						ImpactParticles, 
-						ScreenTraceHit.Location, 
-						ScreenTraceHit.ImpactNormal.Rotation());	
+						BeamEndPoint, 
+						WeaponTraceHit.ImpactNormal.Rotation());	
+				    }
 				}
+
+
+
+
 				if (BeamParticles)
 				{
 					UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(
@@ -193,7 +211,7 @@ void AShooterCharacter::FireWeapon(const FInputActionValue& Value)
 						Beam->SetVectorParameter(FName("Target"), BeamEndPoint);
 					}
 				}
-				}
+				
 			}
 
 	}
